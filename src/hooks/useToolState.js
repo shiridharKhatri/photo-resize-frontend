@@ -3,7 +3,16 @@ import React, { useState, createContext, useContext } from "react";
 
 const ToolContext = createContext();
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3020/api";
+const getApiBase = () => {
+    if (typeof window !== 'undefined') {
+        const envBase = process.env.NEXT_PUBLIC_API_BASE;
+        if (envBase) return envBase;
+        // Fallback to current host on port 3020 if no env is set
+        return `${window.location.protocol}//${window.location.hostname}:3020/api`;
+    }
+    return "http://localhost:3020/api";
+};
+const API_BASE = getApiBase();
 
 export const ToolProvider = ({ children }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);

@@ -246,7 +246,7 @@ export default function ToolInterface({ tool }) {
     // --- RENDER STAGE (Center Panel) ---
     const stagePanel = (
         <div className="flex-1 w-full h-full flex flex-col relative animate-up">
-            <SourcePreview />
+            <SourcePreview key={tool} />
             <SyncEvents tool={tool} startProcessing={useToolState().startProcessing} isProcessing={isProcessing} uploadedFiles={uploadedFiles} />
         </div>
     );
