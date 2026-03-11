@@ -94,12 +94,32 @@ export default function ToolInterface({ tool }) {
                         ) : (
                             <div className="grid grid-cols-1 gap-5 px-1">
                                 <div className="space-y-3">
-                                    <label className="text-[0.65rem] font-bold opacity-60 uppercase tracking-[0.15em] ml-1 text-white">Target Width</label>
-                                    <input type="number" value={settings.width} onChange={(e) => updateSetting('width', e.target.value)} className="studio-input" />
+                                    <div className="flex justify-between items-center">
+                                        <label className="text-[0.65rem] font-bold opacity-60 uppercase tracking-[0.15em] ml-1 text-white">Target Width</label>
+                                        <button 
+                                            onClick={() => { updateSetting('width', 0); updateSetting('height', 0); }}
+                                            className="text-[0.55rem] font-black text-accent-gold/40 hover:text-accent-gold uppercase tracking-widest transition-colors"
+                                        >
+                                            Reset to Original
+                                        </button>
+                                    </div>
+                                    <input 
+                                        type="number" 
+                                        placeholder="Auto"
+                                        value={settings.width === 0 ? "" : settings.width} 
+                                        onChange={(e) => updateSetting('width', e.target.value === "" ? 0 : e.target.value)} 
+                                        className="studio-input" 
+                                    />
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[0.65rem] font-bold opacity-60 uppercase tracking-[0.15em] ml-1 text-white">Target Height</label>
-                                    <input type="number" value={settings.height} onChange={(e) => updateSetting('height', e.target.value)} className="studio-input" />
+                                    <input 
+                                        type="number" 
+                                        placeholder="Auto"
+                                        value={settings.height === 0 ? "" : settings.height} 
+                                        onChange={(e) => updateSetting('height', e.target.value === "" ? 0 : e.target.value)} 
+                                        className="studio-input" 
+                                    />
                                 </div>
                             </div>
                         )}

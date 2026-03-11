@@ -35,6 +35,7 @@ export default function SourcePreview() {
     const cropperRef = useRef(null);
     const [activeRatio, setActiveRatio] = useState('ORG');
     const [isImageReady, setIsImageReady] = useState(false);
+    const [previewError, setPreviewError] = useState(false);
 
     const primaryFile = uploadedFiles[settings.primaryAssetIndex] || uploadedFiles.find(f => f.type === 'image');
 
@@ -340,8 +341,21 @@ export default function SourcePreview() {
                         src={primaryFile.previewUrl}
                         alt="Studio Stage"
                         crossOrigin="anonymous"
-                        className="max-h-full max-w-full opacity-0"
+                        className={`max-h-full max-w-full transition-opacity duration-700 ${isImageReady ? 'opacity-100' : 'opacity-0'}`}
+                        onError={() => setPreviewError(true)}
                     />
+                    {previewError && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+                            <Layers className="w-12 h-12 text-rose-500/20 mb-4" />
+                            <span className="text-[0.65rem] font-black text-rose-500/60 uppercase tracking-[0.2em]">Preview Sync Failed</span>
+                            <button 
+                                onClick={() => window.location.reload()}
+                                className="mt-4 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-[0.55rem] font-black text-white/40 hover:text-white uppercase tracking-widest transition-all"
+                            >
+                                Reconnect Engine
+                            </button>
+                        </div>
+                    )}
                 </div>
                 {mockup}
                 <div className={`absolute bottom-8 right-8 pointer-events-none flex items-center gap-4 bg-black/80 backdrop-blur-md border border-white/15 px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 ${isImageReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
