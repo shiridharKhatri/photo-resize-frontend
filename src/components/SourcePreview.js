@@ -24,12 +24,13 @@ import {
     User,
     Chrome,
     ArrowLeft,
-    Share
+    Share,
+    Loader2
 } from "lucide-react";
 import { useToolState } from "@/hooks/useToolState";
 
 export default function SourcePreview() {
-    const { uploadedFiles, settings, setSettings } = useToolState();
+    const { uploadedFiles, settings, setSettings, isUploading } = useToolState();
     const imgRef = useRef(null);
     const cropperRef = useRef(null);
     const [activeRatio, setActiveRatio] = useState('ORG');
@@ -313,6 +314,25 @@ export default function SourcePreview() {
 
             <div className="flex-1 w-full relative group overflow-hidden bg-background ring-1 ring-white/10 shadow-2xl rounded-2xl mt-20 mb-4 border border-white/5">
                 <div className="absolute inset-0 stage-grid opacity-30 pointer-events-none"></div>
+
+                {isUploading && (
+                    <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-black/60 backdrop-blur-md animate-in fade-in duration-500">
+                        <div className="relative">
+                            <div className="w-16 h-16 rounded-full border-2 border-white/5 flex items-center justify-center">
+                                <Loader2 className="w-8 h-8 text-accent-gold animate-spin" />
+                            </div>
+                            <div className="absolute -inset-4 bg-accent-gold/10 rounded-full blur-2xl animate-pulse"></div>
+                        </div>
+                        <div className="mt-8 text-center space-y-2">
+                            <span className="text-[0.65rem] font-black text-white/90 uppercase tracking-[0.4em] animate-pulse">Ingesting Assets</span>
+                            <div className="flex items-center justify-center gap-1.5 opacity-30">
+                                <div className="w-1 h-1 rounded-full bg-white animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-1 h-1 rounded-full bg-white animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 <div className="absolute inset-0 flex items-center justify-center p-12">
                     <img

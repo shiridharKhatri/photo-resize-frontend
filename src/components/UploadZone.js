@@ -10,7 +10,7 @@ import {
 import { useToolState } from "@/hooks/useToolState";
 
 export default function UploadZone() {
-    const { addFiles, uploadedFiles, clearFiles, removeFile, settings, setSettings, API_BASE } = useToolState();
+    const { addFiles, uploadedFiles, clearFiles, removeFile, settings, setSettings, API_BASE, setIsUploading, isUploading } = useToolState();
     const fileInputRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
 
@@ -18,6 +18,7 @@ export default function UploadZone() {
         const files = Array.from(e.target.files);
         if (!files.length) return;
 
+        setIsUploading(true);
         const formData = new FormData();
         files.forEach(f => formData.append("file", f));
 
@@ -35,6 +36,8 @@ export default function UploadZone() {
         } catch (e) {
             console.error(e);
             alert("Asset connection failed. Please verify engine status.");
+        } finally {
+            setIsUploading(false);
         }
         fileInputRef.current.value = "";
     };

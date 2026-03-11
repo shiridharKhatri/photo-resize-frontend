@@ -3,12 +3,13 @@ import React, { useState, createContext, useContext } from "react";
 
 const ToolContext = createContext();
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8085/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3020/api";
 
 export const ToolProvider = ({ children }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [outputs, setOutputs] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [progressMsg, setProgressMsg] = useState("");
     const [settings, setSettings] = useState({
         format: "JPEG",
@@ -151,6 +152,8 @@ export const ToolProvider = ({ children }) => {
                 setOutputs,
                 isProcessing,
                 setIsProcessing,
+                isUploading,
+                setIsUploading,
                 progressMsg,
                 setProgressMsg,
                 settings,
